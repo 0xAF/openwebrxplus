@@ -50,10 +50,16 @@ function BookmarkBar() {
     });
 }
 
-BookmarkBar.prototype.position = function(){
+BookmarkBar.prototype.position = function () {
+    var waterfallWidth = $('body').width();
     var range = get_visible_freq_range();
-    $('#openwebrx-bookmarks-container').find('.bookmark').each(function(){
-        $(this).css('left', scale_px_from_freq($(this).data('frequency'), range));
+    $('#openwebrx-bookmarks-container').find('.bookmark').each(function () {
+        const px = scale_px_from_freq($(this).data('frequency'), range);
+        const visible = px >= -32 && px <= waterfallWidth + 32;
+        $(this).toggle(visible);
+        if (visible) {
+            $(this).css('left', px);
+        }
     });
 };
 
